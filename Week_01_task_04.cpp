@@ -19,20 +19,27 @@ using TasksInfo = map<TaskStatus, int>;
 class TeamTasks {
 public:
 	// ѕолучить статистику по статусам задач конкретного разработчика
-	//const TasksInfo& GetPersonTasksInfo(const string& person) const;
+	const TasksInfo& GetPersonTasksInfo(const string& person) const {
+		return tasks.at(person);
+	};
 
 	// ƒобавить новую задачу (в статусе NEW) дл€ конкретного разработчитка
 	void AddNewTask(const string& person) {
-		
-			TasksInfo temp;
-			temp[TaskStatus::NEW]++;
-			tasks[person] = temp;
-		
+		tasks[person][TaskStatus::NEW]++;
+
 	};
 
 	// ќбновить статусы по данному количеству задач конкретного разработчика,
 	// подробности см. ниже
-	//tuple<TasksInfo, TasksInfo> PerformPersonTasks(const string& person, int task_count);
+	tuple<TasksInfo, TasksInfo> PerformPersonTasks(const string& person, int task_count) {
+		TasksInfo updated;
+		TasksInfo untoched;
+		TasksInfo temp = tasks[person];
+		
+		
+				
+	
+	};
 
 	map<string, TasksInfo>tasks;
 };
@@ -53,14 +60,15 @@ int main() {
 	for (int i = 0; i < 3; ++i) {
 		tasks.AddNewTask("Ivan");
 	}
-	/*
+		
 	cout << "Ilia's tasks: ";
 	PrintTasksInfo(tasks.GetPersonTasksInfo("Ilia"));
 	cout << "Ivan's tasks: ";
 	PrintTasksInfo(tasks.GetPersonTasksInfo("Ivan"));
-
+		
 	TasksInfo updated_tasks, untouched_tasks;
 
+	/*
 	tie(updated_tasks, untouched_tasks) =
 		tasks.PerformPersonTasks("Ivan", 2);
 	cout << "Updated Ivan's tasks: ";
