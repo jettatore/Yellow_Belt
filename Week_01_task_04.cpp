@@ -35,10 +35,27 @@ public:
 		TasksInfo updated;
 		TasksInfo untoched;
 		TasksInfo temp = tasks[person];
-		
-		
-				
-	
+		map<TaskStatus, int>::iterator it = temp.begin();
+		while (task_count > 0||it!=temp.end()) {
+			auto it_pair = *it;
+			int it_value = it_pair.second;
+			task_count -= it_value;
+			if (task_count >= 0) {
+				auto it_updated = ++it;
+				--it;
+				auto task_status = *it_updated;
+				updated[task_status.first] = it_value;
+			}
+			else {
+				auto it_updated = ++it;
+				--it;
+				auto task_status = *it_updated;
+				updated[task_status.first] = it_value + task_count;
+				untoched[it_pair.first] = (-1)*task_count;
+			}
+			it++;
+		}
+		return make_pair(updated, untoched);
 	};
 
 	map<string, TasksInfo>tasks;
@@ -68,7 +85,7 @@ int main() {
 		
 	TasksInfo updated_tasks, untouched_tasks;
 
-	/*
+	
 	tie(updated_tasks, untouched_tasks) =
 		tasks.PerformPersonTasks("Ivan", 2);
 	cout << "Updated Ivan's tasks: ";
@@ -82,7 +99,7 @@ int main() {
 	PrintTasksInfo(updated_tasks);
 	cout << "Untouched Ivan's tasks: ";
 	PrintTasksInfo(untouched_tasks);
-	*/
+	
 
 	return 0;
 }
